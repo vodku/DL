@@ -1,6 +1,12 @@
+from tensorflow.keras.models import Model
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
+from cv2 import normalize, NORM_MINMAX, CV_32F
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
+import seaborn as sns
+import os
+import random
 
 def ploting_images(paths, ncols, nrows):
     #-----------------------------------------------------
@@ -19,6 +25,7 @@ def ploting_images(paths, ncols, nrows):
     for i, img_path in enumerate(images):
         sp = plt.subplot(nrows, ncols, i+1)
         img = mpimg.imread(img_path)
+        plt.grid(False)
         plt.imshow(img)
         
     plt.show()
@@ -39,8 +46,8 @@ def plot_accuracy_loss(history):
     # Plot training and validation accuracy per epoch
     #-----------------------------------------------------
     ax1 = plt.subplot(222)
-    sns.lineplot(x=epochs, y=acc, ax=ax1)
-    sns.lineplot(x=epochs, y=val_acc, ax=ax1)
+    sns.lineplot(x=epochs, y=acc, ax=ax1, label='Training accuracy')
+    sns.lineplot(x=epochs, y=val_acc, ax=ax1, label='Validation accuracy')
     ax1.set_title('Training and validation accuracy')
     ax1.set_xlabel('Epochs')
     ax1.set_ylabel('Accuracy [%]')
@@ -49,8 +56,8 @@ def plot_accuracy_loss(history):
     # Plot training and validation loss per epoch
     #-----------------------------------------------------
     ax2 = plt.subplot(221)
-    sns.lineplot(x=epochs, y=loss, ax=ax2)
-    sns.lineplot(x=epochs, y=val_loss, ax=ax2)
+    sns.lineplot(x=epochs, y=loss, ax=ax2, label='Training loss')
+    sns.lineplot(x=epochs, y=val_loss, ax=ax2, label='Validation loss')
     ax2.set_title('Training and validation loss')
     ax2.set_xlabel('Epochs')
     ax2.set_ylabel('Loss')
